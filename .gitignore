@@ -1,0 +1,13 @@
+#Directories
+build/
+coverage/
+#dependencies
+node_modules
+
+.coverage_artifacts
+.coverage_contracts
+
+#Files
+.DS_Store
+coverage.json
+.evn.sh
