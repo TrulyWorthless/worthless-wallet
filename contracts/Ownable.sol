@@ -8,13 +8,13 @@ abstract contract Ownable {
   event OwnerRemoved(address indexed previousOwner);
 
   constructor () internal {
-      _owners[msg.sender] = true;
-      ownerCount++;
-      emit OwnerAdded(msg.sender);
+    _owners[msg.sender] = true;
+    ownerCount++;
+    emit OwnerAdded(msg.sender);
   }
 
   function isOwner(address owner) public view returns (bool) {
-      return _owners[owner];
+    return _owners[owner];
   }
 
   function addOwner(address newOwner) public onlyOwner {
@@ -29,7 +29,7 @@ abstract contract Ownable {
   }
 
   modifier onlyOwner() {
-      require(_owners[msg.sender], "Ownable: caller is not an owner");
-      _;
+    require(_owners[msg.sender], "Ownable: caller is not an owner");
+    _;
   }
 }
