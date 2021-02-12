@@ -8,8 +8,8 @@ abstract contract Ownable {
   event OwnerRemoved(address indexed previousOwner);
 
   constructor () internal {
-    _owners[msg.sender] = true;
     ownerCount++;
+    _owners[msg.sender] = true;
     emit OwnerAdded(msg.sender);
   }
 
@@ -18,12 +18,16 @@ abstract contract Ownable {
   }
 
   function addOwner(address newOwner) public onlyOwner {
+    require(!_owners[newOwner], "Ownable: address is already owner");
+    ownerCount++;
     _owners[newOwner] = true;
     emit OwnerAdded(newOwner);
   }
 
   function removeOwner(address previousOwner) public onlyOwner {
+    require(_owners[previousOwner], "Ownable: address is not an owner");
     require(ownerCount > 1, "Ownable: no remaining owners");
+    ownerCount--;
     _owners[previousOwner] = false;
     emit OwnerRemoved(previousOwner);
   }

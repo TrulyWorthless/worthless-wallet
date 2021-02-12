@@ -1,14 +1,14 @@
 pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./Ownable.sol";
+import "./EtherWallet.sol";
 
-contract ERC20Wallet is Ownable {
+contract ERC20Wallet is EtherWallet {
   event ERC20Transfer(ERC20 indexed _token, address indexed recipient, uint256 amount);
   event ERC20Approval(ERC20 indexed _token, address indexed spender, uint256 amount);
   event ERC20Spend(ERC20 indexed _token, address indexed spender, address indexed recipient, uint256 amount);
 
-  constructor () public Ownable() {}
+  constructor () public EtherWallet() {}
 
   function tokenTransfer(ERC20 _token, address recipient, uint256 amount) external onlyOwner returns (bool) {
     require(_token.balanceOf(address(this)) >= amount, "ERC20Wallet: token balance too low, will fail");

@@ -12,13 +12,6 @@ contract EtherWallet is Ownable {
     return address(this).balance;
   }
 
-  function send(address recipient) external payable onlyOwner returns (bool) {
-    (bool sent,) = recipient.call{value: msg.value}("");
-    require(sent, "EtherWallet: failed to send ether");
-    emit EtherTransfer(recipient, msg.value);
-    return true;
-  }
-
   function send(address recipient, uint256 amount) external onlyOwner returns (bool) {
     require(getBalance() >= amount, "EtherWallet: insufficient ether balance");
     (bool sent,) = recipient.call{value: amount}("");
@@ -30,6 +23,4 @@ contract EtherWallet is Ownable {
   receive() external payable {
     emit EtherReceived(msg.sender, msg.value);
   }
-
-  fallback() external payable {}
 }
