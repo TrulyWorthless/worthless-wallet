@@ -10,21 +10,21 @@ contract ERC20Wallet is Ownable {
 
   constructor () public Ownable() {}
 
-  //TODO: Check values before transfers
-
-  function tokenTransfer(ERC20 _token, address recipient, uint256 amount) public onlyOwner returns (bool) {
+  function tokenTransfer(ERC20 _token, address recipient, uint256 amount) external onlyOwner returns (bool) {
+    require(_token.balanceOf(address(this)) >= amount, "ERC20Wallet: token balance too low, will fail");
     _token.transfer(recipient, amount);
     emit ERC20Transfer(_token, recipient, amount);
     return true;
   }
 
-  function tokenApproval(ERC20 _token, address spender, uint256 amount) public onlyOwner returns (bool) {
+  function tokenApproval(ERC20 _token, address spender, uint256 amount) external onlyOwner returns (bool) {
     _token.approve(spender, amount);
     emit ERC20Approval(_token, spender, amount);
     return true;
   }
 
-  function tokenTransferFrom(ERC20 _token, address spender, address recipient, uint256 amount) public onlyOwner returns (bool) {
+  function tokenTransferFrom(ERC20 _token, address spender, address recipient, uint256 amount) external onlyOwner returns (bool) {
+    require(_token.balanceOf(spender) >= amount, "ERC20Wallet: token balance too low, will fail");
     _token.transferFrom(spender, recipient, amount);
     emit ERC20Spend(_token, spender, recipient, amount);
     return true;
