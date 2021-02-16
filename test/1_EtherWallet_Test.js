@@ -1,11 +1,5 @@
 const EtherWallet = artifacts.require("EtherWallet")
 const Web3 = require('web3')
-const FileSystem = require('fs')
-
-function fileToJSON(file) {
-  let rawdata = FileSystem.readFileSync(file)
-  return JSON.parse(rawdata)
-}
 
 contract("EtherWallet", accounts => {
   const coinbase = accounts[0]

@@ -6,7 +6,7 @@ import "./EtherWallet.sol";
 contract ERC20Wallet is EtherWallet {
   event ERC20Transfer(ERC20 indexed _token, address indexed recipient, uint256 amount);
   event ERC20Approval(ERC20 indexed _token, address indexed spender, uint256 amount);
-  event ERC20Spend(ERC20 indexed _token, address indexed spender, address indexed recipient, uint256 amount);
+  event ERC20Spend(ERC20 indexed _token, address indexed financer, address indexed recipient, uint256 amount);
 
   constructor () public EtherWallet() {}
 
@@ -23,10 +23,10 @@ contract ERC20Wallet is EtherWallet {
     return true;
   }
 
-  function tokenTransferFrom(ERC20 _token, address spender, address recipient, uint256 amount) external onlyOwner returns (bool) {
-    require(_token.balanceOf(spender) >= amount, "ERC20Wallet: token balance too low, will fail");
-    _token.transferFrom(spender, recipient, amount);
-    emit ERC20Spend(_token, spender, recipient, amount);
+  function tokenTransferFrom(ERC20 _token, address financer, address recipient, uint256 amount) external onlyOwner returns (bool) {
+    require(_token.balanceOf(financer) >= amount, "ERC20Wallet: token balance too low, will fail");
+    _token.transferFrom(financer, recipient, amount);
+    emit ERC20Spend(_token, financer, recipient, amount);
     return true;
   }
 
@@ -34,8 +34,8 @@ contract ERC20Wallet is EtherWallet {
     return _token.balanceOf(address(this));
   }
 
-  function getAllowance(ERC20 _token, address spender) public view returns (uint256) {
-    return _token.allowance(spender, address(this));
+  function getAllowance(ERC20 _token, address financer) public view returns (uint256) {
+    return _token.allowance(financer, address(this));
   }
 
   function getAllowanceApproved(ERC20 _token, address spender) public view returns (uint256) {
